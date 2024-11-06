@@ -1,0 +1,18 @@
+[tool.poetry]
+name = "cyber-challenge"
+version = "0.1.0"
+description = ""
+authors = ["Hunter Wittenborn <hw0055@uah.edu>"]
+readme = "README.md"
+
+[tool.poetry.dependencies]
+python = ">=3.8"
+fastapi = {extras = ["standard"], version = "^0.115.4"}
+mypy = "^1.13.0"
+ruff = "^0.7.2"
+
+[tool.poetry.group.dev.dependencies]
+
+[build-system]
+requires = ["poetry-core"]
+build-backend = "poetry.core.masonry.api"
