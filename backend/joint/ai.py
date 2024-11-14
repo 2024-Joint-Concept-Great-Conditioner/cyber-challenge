@@ -20,6 +20,4 @@ async def get_completion(msg: str) -> str:
     }
     response = await util.run_blocking(client.invoke_model, modelId=model_id, body=json.dumps(request))
     body = await util.run_blocking(response["body"].read)
-    print(json.loads(body))
-    exit()
     return json.loads(body)["generation"]
