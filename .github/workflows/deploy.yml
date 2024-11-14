@@ -1,0 +1,37 @@
+name: Deploy to AWS
+on:
+  push:
+    branches:
+      - main
+    tags-ignore:
+      - '**'
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout Git repository
+        uses: actions/checkout@v4
+      - name: Set up SSH connection to the server
+        run: |
+          mkdir ~/.ssh
+          echo "${{ secrets.SSH_KNOWN_HOSTS }}" > ~/.ssh/known_hosts
+          echo "${{ secrets.SSH_DEPLOY_KEY }}" > ~/.ssh/deploy_key
+          chmod 700 ~/.ssh -R
+          chmod 600 ~/.ssh/*
+      - name: Set up the `.env` config
+        run: |
+          printf '%s=%s\n' \
+            'AWS_ACCESS_KEY_ID' '${{ secrets.AWS_ACCESS_KEY_ID }}' \
+            'AWS_SECRET_ACCESS_KEY' '${{ secrets.AWS_SECRET_ACCESS_KEY }}' \
+            'MYSQL_USER' '${{ secrets.MYSQL_USER }}' \
+            'MYSQL_PASSWORD' '${{ secrets.MYSQL_PASSWORD }}' \
+            'MYSQL_DB' '${{ secrets.MYSQL_DB }}' \
+            'MYSQL_HOST' '${{ secrets.MYSQL_HOST }}' > .env
+      - name: Deploy the server
+        run: |
+          export DOCKER_HOST='ssh://ubuntu@joint-concept.hunterwittenborn.com'
+          ssh 'ubuntu@joint-concept@hunterwittenborn.com' echo 'HI!'
+          docker compose down --remove-orphans
+          docker compose up -d
+
