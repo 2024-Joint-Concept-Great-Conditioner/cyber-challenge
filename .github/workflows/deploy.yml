@@ -15,8 +15,8 @@ jobs:
       - name: Set up SSH connection to the server
         run: |
           mkdir ~/.ssh
-          echo "${{ secrets.SSH_KNOWN_HOSTS }}" > ~/.ssh/known_hosts
-          echo "${{ secrets.SSH_DEPLOY_KEY }}" > ~/.ssh/deploy_key
+          echo "${{ secrets.SSH_KNOWN_HOSTS }}" > /home/runner/.ssh/known_hosts
+          echo "${{ secrets.SSH_DEPLOY_KEY }}" > /home/runner/.ssh/id_ecdsa
           chmod 700 ~/.ssh -R
           chmod 600 ~/.ssh/*
       - name: Set up the `.env` config
@@ -31,7 +31,6 @@ jobs:
       - name: Deploy the server
         run: |
           export DOCKER_HOST='ssh://ubuntu@joint-concept.hunterwittenborn.com'
-          ssh 'ubuntu@joint-concept@hunterwittenborn.com' echo 'HI!'
           docker compose down --remove-orphans
           docker compose up -d
 
