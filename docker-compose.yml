@@ -1,0 +1,12 @@
+# Services needed for the Joint Cyber program
+#
+# Current setup includes:
+#   - frontend: The frontend application, which communicates with the backend
+#   - backend: The application backend, which handles the heavy lifting
+#   - ollama: The AI service on which Llama3 runs
+#   - mariadb: The database backend for the server
+services:
+  ollama:
+    image: ollama/ollama:0.4.1
+    ports:
+      - 11434:11434
