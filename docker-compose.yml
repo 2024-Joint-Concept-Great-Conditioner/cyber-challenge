@@ -1,12 +1,27 @@
 # Services needed for the Joint Cyber program
 #
 # Current setup includes:
-#   - frontend: The frontend application, which communicates with the backend
-#   - backend: The application backend, which handles the heavy lifting
-#   - ollama: The AI service on which Llama3 runs
 #   - mariadb: The database backend for the server
+#   - backend: The application backend, which handles the heavy lifting
+#   - frontend: The frontend application, which communicates with the backend
 services:
-  ollama:
-    image: ollama/ollama:0.4.1
-    ports:
-      - 11434:11434
+  mariadb:
+    image: mariadb
+    environment:
+      MARIADB_USER: ${MYSQL_USER}
+      MARIADB_PASSWORD: ${MYSQL_PASSWORD}
+      MARIADB_DATABASE: ${MYSQL_DB}
+      MARIADB_ROOT_PASSWORD: ${MYSQL_PASSWORD}
+#    ports:
+#      - 3306:3306
+  backend:
+    image: backend
+    build:
+      context: .
+      dockerfile: docker/builds/backend.Dockerfile
+    depends_on:
+      mariadb:
+        condition: service_started
+    environment:
+      AWS_ACCESS_KEY_ID: ${AWS_ACCESS_KEY_ID}
+      AWS_SECRET_ACCESS_KEY: ${AWS_SECRET_ACCESS_KEY}
