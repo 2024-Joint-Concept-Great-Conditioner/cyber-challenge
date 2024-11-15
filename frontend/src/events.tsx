@@ -1,20 +1,20 @@
 import React, { useState, createContext, useContext, useEffect } from "react";
 import Table from "@mui/material/Table";
 import TableBody from "@mui/material/TableBody";
-import NativeSelect from '@mui/material/NativeSelect';
+import NativeSelect from "@mui/material/NativeSelect";
 import TableCell from "@mui/material/TableCell";
 import TableContainer from "@mui/material/TableContainer";
 import TableHead from "@mui/material/TableHead";
 import TableRow from "@mui/material/TableRow";
-import FormControl from '@mui/material/FormControl';
-import InputLabel from '@mui/material/InputLabel';
+import FormControl from "@mui/material/FormControl";
+import InputLabel from "@mui/material/InputLabel";
 import Select, { SelectChangeEvent } from "@mui/material/Select";
 import MenuItem from "@mui/material/MenuItem";
 import Paper from "@mui/material/Paper";
 import axios from "axios";
 import { BackendUrl } from "./config";
 
-async function getEvents() {
+export async function getEvents() {
   const resp = await axios.get(`${BackendUrl}/events`);
   return resp.data;
 }
@@ -73,7 +73,7 @@ function sortEvents(events, sorter) {
 }
 
 async function handleStatus(id, status) {
-	await axios.post(`${BackendUrl}/status/${id}/${status}`);
+  await axios.post(`${BackendUrl}/status/${id}/${status}`);
 }
 
 export default function Events() {
@@ -154,15 +154,20 @@ export default function Events() {
                 {event.severity}
               </TableCell>
               <TableCell key={event.status} align="center">
-	      	<FormControl>
-		<NativeSelect defaultValue={event.status} onChange={select => handleStatus(event.id, select.target.value)}>
-		<option value="New">New</option>
-		<option value="In Progress">In Progress</option>
-		<option value="Resolved">Resolved</option>
-		<option value="Ignored">Ignored</option>
-		<option value="Escalated">Escalated</option>
-		</NativeSelect>
-		</FormControl>
+                <FormControl>
+                  <NativeSelect
+                    defaultValue={event.status}
+                    onChange={(select) =>
+                      handleStatus(event.id, select.target.value)
+                    }
+                  >
+                    <option value="New">New</option>
+                    <option value="In Progress">In Progress</option>
+                    <option value="Resolved">Resolved</option>
+                    <option value="Ignored">Ignored</option>
+                    <option value="Escalated">Escalated</option>
+                  </NativeSelect>
+                </FormControl>
               </TableCell>
             </TableRow>
           ))}

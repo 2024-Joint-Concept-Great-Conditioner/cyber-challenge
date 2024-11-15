@@ -17,7 +17,7 @@
     "@emotion/styled": "^11.13.0",
     "@mui/icons-material": "^6.1.7",
     "@mui/material": "^6.1.7",
-    "apex-grid": "^1.0.1",
+    "@mui/x-charts": "^7.22.2",
     "axios": "^1.7.7",
     "nodemon": "^3.1.7",
     "react": "^18.3.1",

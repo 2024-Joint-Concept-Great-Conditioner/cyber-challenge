@@ -1,15 +1,30 @@
-import React from "react";
+import React, { useState } from "react";
 import { createRoot } from "react-dom/client";
 import Upload from "./upload";
 import Events from "./events";
+import Charts from "./charts";
 import { createTheme, ThemeProvider } from "@mui/material/styles";
+import Tabs from "@mui/material/Tabs";
+import Tab from "@mui/material/Tab";
+import Box from "@mui/material/Box";
 
 function Main() {
+  const [tab, setTab] = useState(0);
+
   return (
-    <div>
-      <Upload />
-      <Events />
-    </div>
+    <Box>
+      <Tabs value={tab} onChange={(event, value) => setTab(value)}>
+        <Tab label="Dashboard" id="dashboard" />
+        <Tab label="Events" id="events" />
+      </Tabs>
+      <div role="tabpanel" hidden={tab !== 0} id="dashboard">
+        <Charts />
+      </div>
+      <div role="events" hidden={tab !== 1} id="events">
+        <Upload />
+        <Events />
+      </div>
+    </Box>
   );
 }
 
