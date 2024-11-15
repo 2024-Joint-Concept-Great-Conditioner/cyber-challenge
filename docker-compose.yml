@@ -7,15 +7,17 @@
 services:
   mariadb:
     image: mariadb
+    restart: always
     environment:
       MARIADB_USER: ${MYSQL_USER}
       MARIADB_PASSWORD: ${MYSQL_PASSWORD}
       MARIADB_DATABASE: ${MYSQL_DB}
       MARIADB_ROOT_PASSWORD: ${MYSQL_PASSWORD}
-#    ports:
-#      - 3306:3306
+    ports:
+      - 3306:3306
   backend:
     image: backend
+    restart: always
     build:
       context: .
       dockerfile: docker/builds/backend.Dockerfile
@@ -23,5 +25,22 @@ services:
       mariadb:
         condition: service_started
     environment:
+      MYSQL_HOST: 'mariadb'
+      MYSQL_USER: ${MYSQL_USER}
+      MYSQL_PASSWORD: ${MYSQL_PASSWORD}
+      MYSQL_DB: ${MYSQL_DB}
       AWS_ACCESS_KEY_ID: ${AWS_ACCESS_KEY_ID}
       AWS_SECRET_ACCESS_KEY: ${AWS_SECRET_ACCESS_KEY}
+  frontend:
+    image: frontend
+    restart: always
+    build:
+      context: .
+      dockerfile: docker/builds/frontend.Dockerfile
+      args:
+        BACKEND_URL: "http://backend:8000"
+    depends_on:
+      backend:
+        condition: service_started
+    ports:
+      - 80:80

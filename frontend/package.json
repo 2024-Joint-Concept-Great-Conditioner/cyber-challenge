@@ -1,0 +1,33 @@
+{
+  "name": "frontend",
+  "version": "0.0.1",
+  "description": "",
+  "main": "index.js",
+  "type": "module",
+  "scripts": {
+    "build": "node build.js",
+    "check": "tsc --jsx react --noEmit",
+    "fmt": "prettier . --write",
+    "start": "nodemon -e tsx --exec npm run build"
+  },
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "@emotion/react": "^11.13.3",
+    "@emotion/styled": "^11.13.0",
+    "@mui/icons-material": "^6.1.7",
+    "@mui/material": "^6.1.7",
+    "apex-grid": "^1.0.1",
+    "axios": "^1.7.7",
+    "nodemon": "^3.1.7",
+    "react": "^18.3.1",
+    "react-dom": "^18.3.1"
+  },
+  "devDependencies": {
+    "@types/react-dom": "^18.3.1",
+    "esbuild": "^0.24.0",
+    "mustache": "^4.2.0",
+    "prettier": "3.3.3",
+    "typescript": "^5.6.3"
+  }
+}
