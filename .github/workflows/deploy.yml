@@ -31,6 +31,7 @@ jobs:
       - name: Deploy the server
         run: |
           export DOCKER_HOST='ssh://ubuntu@joint-concept.hunterwittenborn.com'
+          docker compose build
           docker compose down --remove-orphans
           docker compose up -d
 

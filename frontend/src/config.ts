@@ -1,1 +1,1 @@
-export const BackendUrl = `http://${window.location.host}`;
+export const BackendUrl = `${window.location.origin}`;
