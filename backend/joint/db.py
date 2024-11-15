@@ -9,11 +9,10 @@ __all__ = [
     "Status",
     "Event",
     "engine",
-    "STATUS_NEW",
-    "STATUS_IN_PROGRESS",
-    "STATUS_RESOLVED",
-    "STATUS_IGNORED",
-    "STATUS_ESCALATED",
+    "STATUS_OPEN",
+    "STATUS_NOT_A_FINDING",
+    "STATUS_NOT_REVIEWED",
+    "STATUS_NOT_APPLICABLE",
 ]
 
 
@@ -46,7 +45,7 @@ engine = create_engine(session_url)
 SQLModel.metadata.create_all(engine)
 
 # Create the statuses if they don't already exist.
-statuses = ["New", "In Progress", "Resolved", "Ignored", "Escalated"]
+statuses = ["Open", "Not A Finding", "Not Reviewed", "Not Applicable"]
 
 with Session(engine) as session:
     for status in statuses:

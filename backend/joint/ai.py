@@ -10,7 +10,8 @@ config = Config(
     retries={"max_attempts": 1000, "mode": "standard"},
 )
 client = boto3.client("bedrock-runtime", region_name=env.AWS_REGION, config=config)
-model_id = "meta.llama3-70b-instruct-v1:0"
+# model_id = "meta.llama3-70b-instruct-v1:0"
+model_id = "us.meta.llama3-2-90b-instruct-v1:0"
 
 
 async def get_completion(msg: str) -> str:

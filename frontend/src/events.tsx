@@ -103,14 +103,14 @@ export default function Events() {
               onClick={() => setSorter("summary")}
               style={{ opacity: sorter == "summary" ? "100%" : "50%" }}
             >
-              Summary
+              Vulnerability
             </TableCell>
             <TableCell
               align="center"
               onClick={() => setSorter("fix")}
               style={{ opacity: sorter == "fix" ? "100%" : "50%" }}
             >
-              Fix
+              Problem Summary
             </TableCell>
             <TableCell
               align="center"
@@ -151,7 +151,8 @@ export default function Events() {
                 {event.event_type}
               </TableCell>
               <TableCell key={event.severity} align="center">
-                {event.severity}
+                {event.severity.charAt(0).toUpperCase() +
+                  event.severity.slice(1)}
               </TableCell>
               <TableCell key={event.status} align="center">
                 <FormControl>
@@ -161,11 +162,10 @@ export default function Events() {
                       handleStatus(event.id, select.target.value)
                     }
                   >
-                    <option value="New">New</option>
-                    <option value="In Progress">In Progress</option>
-                    <option value="Resolved">Resolved</option>
-                    <option value="Ignored">Ignored</option>
-                    <option value="Escalated">Escalated</option>
+                    <option value="Open">Open</option>
+                    <option value="Not A Finding">Not A Finding</option>
+                    <option value="Not Reviewed">Not Reviewed</option>
+                    <option value="Not Applicable">Not Applicable</option>
                   </NativeSelect>
                 </FormControl>
               </TableCell>

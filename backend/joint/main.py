@@ -28,10 +28,12 @@ app.add_middleware(
 aws_jobs: dict[int, tuple[int, int]] = {}
 job_lock = asyncio.Lock()
 
+
 @app.get("/", response_class=HTMLResponse)
 def index_html():
     with open(env.INDEX_HTML) as file:
         return file.read()
+
 
 @app.post("/aws-logs")
 async def aws_logs(request: Request, background_tasks: BackgroundTasks):
@@ -116,7 +118,7 @@ async def aws_logs(request: Request, background_tasks: BackgroundTasks):
                     severity=severity.id,
                     summary=summary,
                     fix=fix,
-                    status=db.STATUS_NEW,
+                    status=db.STATUS_OPEN,
                 )
                 db_updates.append(new_event)
 
@@ -153,17 +155,19 @@ async def issues():
 
         return output
 
+
 @app.post("/status/{id}/{status}")
 async def change_status(id: int, status: str):
     with Session(engine) as session:
         status_statement = select(Status).where(Status.status == status)
         status_id = session.exec(status_statement).first().id
-        
+
         event_statement = select(Event).where(Event.id == id)
         event = session.exec(event_statement).first()
         event.status = status_id
         session.add(event)
         session.commit()
+
 
 def main():
     config = uvicorn.Config(app, host="0.0.0.0", port=8000, log_level="info")

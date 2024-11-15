@@ -18,8 +18,9 @@ Output **only** a JSON object with the following keys if a security issue is ide
 In regards to the severity:
   - "critical" is used for things that can cause extreme levels of damage, such as no password protection on a writeable S3 instance.
   - "high" is for serious things, but things that won't screw things up extremely bad. Such is for things like insecure SSH connections.
-  - "medium" is for somewhat serious stuff, like unneeded open ports.
-  - "low" is for simply notable things 
+  - "medium" is for somewhat serious stuff, like unneeded open ports. This can also be used for things that look possibly suspicious, such as out-of-place identifiers that wouldn't be used by a normal user.
+  - "low" is for simply notable things.
+
 If no security issue is found, output `null`. In such a case, also ONLY output `null`, with no explanation text.
 
 ## Output Example
