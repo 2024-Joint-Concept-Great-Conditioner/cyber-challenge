@@ -153,6 +153,17 @@ async def issues():
 
         return output
 
+@app.post("/status/{id}/{status}")
+async def change_status(id: int, status: str):
+    with Session(engine) as session:
+        status_statement = select(Status).where(Status.status == status)
+        status_id = session.exec(status_statement).first().id
+        
+        event_statement = select(Event).where(Event.id == id)
+        event = session.exec(event_statement).first()
+        event.status = status_id
+        session.add(event)
+        session.commit()
 
 def main():
     config = uvicorn.Config(app, host="0.0.0.0", port=8000, log_level="info")

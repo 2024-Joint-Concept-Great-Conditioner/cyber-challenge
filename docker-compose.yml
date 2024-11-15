@@ -12,6 +12,8 @@ services:
       MARIADB_PASSWORD: ${MYSQL_PASSWORD}
       MARIADB_DATABASE: ${MYSQL_DB}
       MARIADB_ROOT_PASSWORD: ${MYSQL_PASSWORD}
+    ports:
+      - 3306:3306
   web:
     image: web
     restart: always
