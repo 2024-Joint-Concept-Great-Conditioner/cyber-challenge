@@ -13,6 +13,7 @@ __all__ = [
     "MYSQL_DB",
     "MYSQL_HOST",
     "MYSQL_PORT",
+    "INDEX_HTML",
 ]
 
 AWS_ACCESS_KEY_ID: str = ""
@@ -26,6 +27,7 @@ MYSQL_DB: str = ""
 MYSQL_HOST: str = ""
 MYSQL_PORT: str = "3306"
 MAX_POOL_SIZE = 10
+INDEX_HTML: str = ""
 
 load_dotenv()
 

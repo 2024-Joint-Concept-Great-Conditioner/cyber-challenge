@@ -2,16 +2,21 @@
 import json
 import asyncio
 import dateutil.parser
+import os
 
 from sqlmodel import Session, select
 import uvicorn
 import re
 from fastapi import FastAPI, Request, BackgroundTasks
+from fastapi.responses import HTMLResponse
 from fastapi.middleware.cors import CORSMiddleware
 
 from joint import ai, env, db
 from joint.db import Severity, Status, Event, engine
 from joint.templates import template_process_event
+
+directory = os.path.dirname(os.path.abspath(__file__))
+os.chdir(directory)
 
 codeblock_regex = re.compile(r"```(?:\w+\s+)?(.*?)```", re.DOTALL)
 
@@ -23,6 +28,10 @@ app.add_middleware(
 aws_jobs: dict[int, tuple[int, int]] = {}
 job_lock = asyncio.Lock()
 
+@app.get("/", response_class=HTMLResponse)
+def index_html():
+    with open(env.INDEX_HTML) as file:
+        return file.read()
 
 @app.post("/aws-logs")
 async def aws_logs(request: Request, background_tasks: BackgroundTasks):
@@ -146,7 +155,7 @@ async def issues():
 
 
 def main():
-    config = uvicorn.Config(app, port=8000, log_level="info")
+    config = uvicorn.Config(app, host="0.0.0.0", port=8000, log_level="info")
     server = uvicorn.Server(config)
     server.run()
 

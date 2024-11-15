@@ -1,1 +1,1 @@
-export const BackendUrl = "http://localhost:8000";
+export const BackendUrl = `http://${window.location.host}`;

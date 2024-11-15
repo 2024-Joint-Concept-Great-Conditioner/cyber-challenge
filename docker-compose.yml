@@ -2,8 +2,7 @@
 #
 # Current setup includes:
 #   - mariadb: The database backend for the server
-#   - backend: The application backend, which handles the heavy lifting
-#   - frontend: The frontend application, which communicates with the backend
+#   - web: The FastAPI server that hosts the backend and frontend interfaces
 services:
   mariadb:
     image: mariadb
@@ -13,14 +12,13 @@ services:
       MARIADB_PASSWORD: ${MYSQL_PASSWORD}
       MARIADB_DATABASE: ${MYSQL_DB}
       MARIADB_ROOT_PASSWORD: ${MYSQL_PASSWORD}
-    ports:
-      - 3306:3306
-  backend:
-    image: backend
+  web:
+    image: web
     restart: always
     build:
       context: .
-      dockerfile: docker/builds/backend.Dockerfile
+    ports:
+      - 8000:8000
     depends_on:
       mariadb:
         condition: service_started
@@ -31,16 +29,3 @@ services:
       MYSQL_DB: ${MYSQL_DB}
       AWS_ACCESS_KEY_ID: ${AWS_ACCESS_KEY_ID}
       AWS_SECRET_ACCESS_KEY: ${AWS_SECRET_ACCESS_KEY}
-  frontend:
-    image: frontend
-    restart: always
-    build:
-      context: .
-      dockerfile: docker/builds/frontend.Dockerfile
-      args:
-        BACKEND_URL: "http://backend:8000"
-    depends_on:
-      backend:
-        condition: service_started
-    ports:
-      - 80:80
